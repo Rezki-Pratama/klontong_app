@@ -17,6 +17,18 @@ You can refer to this [link](https://docs.flutter.dev/get-started/install) to in
 * Open the project directory on your local machine using your preferred editor.
 * Run the app on your preferred mobile device by referring to this [link](https://docs.flutter.dev/get-started/test-drive?tab=vscode) on section **Run the app**.
 
+## Instruction Deploy in your local environment
+
+1. Clone from this repository by download zip or https or ssh (recommended using https or ssh)
+   - Copy repository url
+   - Open your fav code editor _(Recommended using Android Studio or Visual Studio Code)_
+   - _(Android Studio)_ New -> Project from Version Control.. -> Paste the url, click OK
+   - _(Visual Studio Code)_ create folder where do you want, open terminal and paste url clone then enter -> open root folder.
+2. Run "flutter pub get" in the project directory or click the highlighted instruction in Android Studio or Visual Studio Code
+3. Run "flutter gen-l10n" to generate the internationalizations any concern about this please refer to this [Internationalizations](https://docs.flutter.dev/development/accessibility-and-localization/internationalization)
+4. Prepare the Android Virtual Device or real device _(Make sure its supported device)_
+5. Run main.dart
+
 
 ## Tests
 To run the test, you can run this command:
@@ -73,6 +85,10 @@ This way we can have this project more understandable, flexible and maintainable
 
 ### Linter
 * [flutter_lints](https://github.com/flutter/packages/tree/main/packages/flutter_lints) - Recommended lints for Flutter apps, packages, and plugins to encourage good coding practices.
+
+### Localization
+* [flutter_localizations](https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html) - Flutter’s built-in package that provides localized resources for Flutter apps.
+* [flutter_gen_l10n](https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization) - A tool to generate localization files based on your `arb` files. Run `flutter gen-l10n` to generate the internationalizations.
 
 ### Screen Adaptation
 * [flutter_screenutil](https://pub.dev/packages/flutter_screenutil) - A package that helps with screen size adaptation, making it easier to develop responsive Flutter applications.
