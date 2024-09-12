@@ -1,0 +1,21 @@
+{
+    "language": "English",
+    "@language":{
+      "description": "The current Language"
+    },
+    "@_APPBAR_AND_BOTTOMBAR": {},
+    "save": "Save",
+    "update": "Update",
+    "error": "Something went wrong",
+    "name": "Name",
+    "category": "Category",
+    "description": "Description",
+    "weight": "Weight",
+    "width": "Width",
+    "length": "Length",
+    "height": "Height",
+    "image": "Image",
+    "price": "Price",
+    "validation": "<title> must not be empty",
+    "addProduct": "Tambah Produk"
+}

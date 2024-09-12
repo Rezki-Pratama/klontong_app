@@ -1,0 +1,21 @@
+{
+    "language": "Indonesia",
+    "@language":{
+      "description": "Bahasa saat ini"
+    },
+    "@_APPBAR_AND_BOTTOMBAR": {},
+    "save": "Simpan",
+    "update": "Perbarui",
+    "error": "Terjadi kesalahan",
+    "name": "Nama",
+    "category": "Kategori",
+    "description": "Deskripsi",
+    "weight": "Berat",
+    "width": "Lebar",
+    "length": "Panjang",
+    "height": "Tinggi",
+    "image": "Gambar",
+    "price": "Harga",
+    "validation": "<title> tidak boleh kosong",
+    "addProduct": "Add Product"
+}
