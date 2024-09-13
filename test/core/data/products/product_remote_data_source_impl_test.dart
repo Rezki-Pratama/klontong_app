@@ -113,14 +113,14 @@ void main() {
       'Should return products array when a call to data source is successful',
       () async {
         // arrange
-        when(mockRemoteDataSource.retrieveProduct(page))
+        when(mockRemoteDataSource.retrieveProduct(page: page))
             .thenAnswer((_) async => tProductResponse);
 
         // act
-        final result = await repository.retrieveProduct(page);
+        final result = await repository.retrieveProduct(page: page);
 
         // assert
-        verify(mockRemoteDataSource.retrieveProduct(page));
+        verify(mockRemoteDataSource.retrieveProduct(page: page));
 
         // define the expected result
         const expected = Right<Failure, List<Product>>(tProduct);
@@ -138,14 +138,14 @@ void main() {
       'Should return server failure when a call to data source is unsuccessful',
       () async {
         // arrange
-        when(mockRemoteDataSource.retrieveProduct(page))
+        when(mockRemoteDataSource.retrieveProduct(page: page))
             .thenThrow(BadRequestException());
 
         // act
-        final result = await repository.retrieveProduct(page);
+        final result = await repository.retrieveProduct(page: page);
 
         // assert
-        verify(mockRemoteDataSource.retrieveProduct(page));
+        verify(mockRemoteDataSource.retrieveProduct(page: page));
 
         // define the expected result
         const expected = Left<Failure, List<Product>>(
@@ -164,14 +164,14 @@ void main() {
       'Should return connection failure when the device has no internet',
       () async {
         // arrange
-        when(mockRemoteDataSource.retrieveProduct(page))
+        when(mockRemoteDataSource.retrieveProduct(page: page))
             .thenThrow(NoConnectionException());
 
         // act
-        final result = await repository.retrieveProduct(page);
+        final result = await repository.retrieveProduct(page: page);
 
         // assert
-        verify(mockRemoteDataSource.retrieveProduct(page));
+        verify(mockRemoteDataSource.retrieveProduct(page: page));
 
         // define the expected result
         const expected = Left<Failure, List<Product>>(

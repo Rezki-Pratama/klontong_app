@@ -62,11 +62,18 @@ class MockProductUseCase extends _i1.Mock implements _i3.ProductUseCase {
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>> paginate(int? page) =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>> paginate({
+    int? page = 1,
+    String? search = r'',
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #paginate,
-          [page],
+          [],
+          {
+            #page: page,
+            #search: search,
+          },
         ),
         returnValue:
             _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>>.value(
@@ -74,7 +81,11 @@ class MockProductUseCase extends _i1.Mock implements _i3.ProductUseCase {
           this,
           Invocation.method(
             #paginate,
-            [page],
+            [],
+            {
+              #page: page,
+              #search: search,
+            },
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>>);

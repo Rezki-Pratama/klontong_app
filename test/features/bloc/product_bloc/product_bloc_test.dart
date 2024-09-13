@@ -81,7 +81,7 @@ void main() {
   blocTest<ProductBloc, ProductState>(
     'Should emit [loading, has data] when data is gotten successfully',
     build: () {
-      when(mockProductUseCase.paginate(page))
+      when(mockProductUseCase.paginate(page: page))
           .thenAnswer((_) async => const Right(tProduct));
       return productBloc;
     },
@@ -92,14 +92,14 @@ void main() {
       const ProductState(status: ProductStatus.loaded, data: tProduct)
     ],
     verify: (bloc) {
-      verify(mockProductUseCase.paginate(page));
+      verify(mockProductUseCase.paginate(page: page));
     },
   );
 
   blocTest<ProductBloc, ProductState>(
     'Should emit [loading, error] when get data is unsuccessful',
     build: () {
-      when(mockProductUseCase.paginate(page))
+      when(mockProductUseCase.paginate(page: page))
           .thenAnswer((_) async => const Left(ServerFailure('Server failure')));
       return productBloc;
     },
@@ -110,7 +110,7 @@ void main() {
           status: ProductStatus.errorRetrieve, message: 'server failure')
     ],
     verify: (bloc) {
-      verify(mockProductUseCase.paginate(page));
+      verify(mockProductUseCase.paginate(page: page));
     },
   );
 

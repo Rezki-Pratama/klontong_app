@@ -77,11 +77,11 @@ void main() {
       'Should retrieve products from the repository',
       () async {
         // arrange
-        when(mockProductRepository.retrieveProduct(page))
+        when(mockProductRepository.retrieveProduct(page: page))
             .thenAnswer((_) async => const Right(tProduct));
 
         // act
-        final result = await usecase.paginate(page);
+        final result = await usecase.paginate(page: page);
 
         // assert
         expect(result, equals(const Right(tProduct)));

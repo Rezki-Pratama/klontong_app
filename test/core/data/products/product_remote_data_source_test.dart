@@ -60,7 +60,7 @@ void main() {
         );
 
         // act
-        final result = await dataSource.retrieveProduct(page);
+        final result = await dataSource.retrieveProduct(page: page);
 
         // assert
         expect(result, equals(tProductResponse));
@@ -83,7 +83,7 @@ void main() {
               HttpStatus.ok),
         );
         // act
-        final result = await dataSource.retrieveProduct(page);
+        final result = await dataSource.retrieveProduct(page: page);
 
         // assert
         expect(result, tProductResponseNoData);
@@ -104,7 +104,7 @@ void main() {
         );
 
         // act
-        final call = dataSource.retrieveProduct(page);
+        final call = dataSource.retrieveProduct(page: page);
 
         // assert
         expect(() => call, throwsA(isA<BadRequestException>()));
