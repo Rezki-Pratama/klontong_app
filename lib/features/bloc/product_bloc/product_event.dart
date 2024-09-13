@@ -9,7 +9,8 @@ abstract class ProductEvent extends Equatable {
 
 class RetrieveProduct extends ProductEvent {
   final bool isScroll;
-  const RetrieveProduct({this.isScroll = false});
+  final String search;
+  const RetrieveProduct({this.isScroll = false, this.search = ''});
 }
 
 class StoreProduct extends ProductEvent {

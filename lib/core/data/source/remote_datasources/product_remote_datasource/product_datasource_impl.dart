@@ -11,32 +11,41 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   ProductRemoteDataSourceImpl({required this.apiBaseHelper});
 
   @override
-  Future<List<ProductResponse>> retrieveProduct(int page) async {
+  Future<List<ProductResponse>> retrieveProduct(
+      {int page = 1, String search = ''}) async {
     int limit = 10;
     final response = await apiBaseHelper.getPublicApi(ProductUrls.product);
 
     try {
-      //cnvert the response to a list
+      // Convert the response to a list of ProductResponse
       final allProducts = List<ProductResponse>.from(
         response.map<ProductResponse>(
           (dynamic i) => ProductResponse.fromJson(i),
         ),
       );
 
-      //calculate start and end index for pagination
+      // Apply search filter if search is not empty
+      final filteredProducts = search.isEmpty
+          ? allProducts
+          : allProducts
+              .where((product) =>
+                  product.name.toLowerCase().contains(search.toLowerCase()))
+              .toList();
+
+      // Calculate start and end index for pagination
       final startIndex = (page - 1) * limit;
       final endIndex = startIndex + limit;
 
-      //check if startIndex is within bounds
-      if (startIndex >= allProducts.length || startIndex < 0) {
-        //return an empty list if the page is out of range
+      // Check if startIndex is within bounds
+      if (startIndex >= filteredProducts.length || startIndex < 0) {
+        // Return an empty list if the page is out of range
         return [];
       }
 
-      //slice the dataset to return desired page
-      final paginatedProducts = allProducts.sublist(
+      // Slice the dataset to return the desired page
+      final paginatedProducts = filteredProducts.sublist(
         startIndex,
-        endIndex > allProducts.length ? allProducts.length : endIndex,
+        endIndex > filteredProducts.length ? filteredProducts.length : endIndex,
       );
 
       return paginatedProducts;

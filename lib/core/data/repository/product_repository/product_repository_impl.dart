@@ -12,9 +12,11 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<Product>>> retrieveProduct(int page) async {
+  Future<Either<Failure, List<Product>>> retrieveProduct(
+      {int page = 1, String search = ''}) async {
     try {
-      final result = await remoteDataSource.retrieveProduct(page);
+      final result =
+          await remoteDataSource.retrieveProduct(page: page, search: search);
       final data = DataMapper.mapProductsEntityToDomain(result);
 
       return Right(data);

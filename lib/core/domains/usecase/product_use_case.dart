@@ -8,11 +8,12 @@ class ProductUseCase {
   ProductUseCase(this._repository);
 
   Future<Either<Failure, List<Product>>> execute() async {
-    return await _repository.retrieveProduct(1);
+    return await _repository.retrieveProduct(page: 1);
   }
 
-  Future<Either<Failure, List<Product>>> paginate(int page) async {
-    return await _repository.retrieveProduct(page);
+  Future<Either<Failure, List<Product>>> paginate(
+      {int page = 1, String search = ''}) async {
+    return await _repository.retrieveProduct(page: page, search: search);
   }
 
   Future<Either<Failure, void>> store({required Product data}) async {

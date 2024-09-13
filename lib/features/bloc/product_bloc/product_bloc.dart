@@ -76,7 +76,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       page++;
       if (state.hasReachedMax) return;
 
-      final result = await _useCase.paginate(page);
+      final result = await _useCase.paginate(page: page);
       result.fold((failure) {
         emit(state.copyWith(
             status: ProductStatus.errorRetrieve, message: failure.message));
@@ -94,7 +94,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(state.copyWith(status: ProductStatus.loadingRetrieve));
 
       page = 1;
-      final result = await _useCase.paginate(page);
+      final result = await _useCase.paginate(page: page, search: event.search);
       result.fold((failure) {
         emit(state.copyWith(
             status: ProductStatus.errorRetrieve, message: failure.message));
