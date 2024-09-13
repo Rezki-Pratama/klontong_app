@@ -42,6 +42,20 @@ void main() {
   ];
 
   const tStoreProduct = Product(
+    categoryId: 14,
+    categoryName: 'Cemilan',
+    sku: 'MHZVTK',
+    name: 'Ciki ciki',
+    description: 'Ciki ciki yang super enak, hanya di toko klontong kami',
+    weight: 5,
+    width: 5,
+    length: 5,
+    height: 5,
+    image: 'https://cf.shopee.co.id/file/7cb930d1bd183a435f4fb3e5cc4a896b',
+    price: 5000,
+  );
+
+  const tUpdateProduct = Product(
     id: '66e17bbbfe837603e816b966',
     categoryId: 14,
     categoryName: 'Cemilan',
@@ -55,6 +69,8 @@ void main() {
     image: 'https://cf.shopee.co.id/file/7cb930d1bd183a435f4fb3e5cc4a896b',
     price: 5000,
   );
+
+  const tProductId = '66e17bbbfe837603e816b966';
 
   group('Product Usecase', () {
     test(
@@ -82,6 +98,38 @@ void main() {
 
         // act
         final result = await usecase.store(data: tStoreProduct);
+
+        // assert
+        expect(result, equals(const Right(tProduct)));
+      },
+    );
+
+    test(
+      'Should update products from the repository',
+      () async {
+        // arrange
+        when(mockProductRepository.updateProduct(tUpdateProduct)).thenAnswer(
+            // ignore: void_checks
+            (_) async => const Right(tProduct));
+
+        // act
+        final result = await usecase.update(data: tUpdateProduct);
+
+        // assert
+        expect(result, equals(const Right(tProduct)));
+      },
+    );
+
+    test(
+      'Should delete products from the repository',
+      () async {
+        // arrange
+        when(mockProductRepository.deleteProduct(tProductId)).thenAnswer(
+            // ignore: void_checks
+            (_) async => const Right(tProduct));
+
+        // act
+        final result = await usecase.delete(tProductId);
 
         // assert
         expect(result, equals(const Right(tProduct)));
