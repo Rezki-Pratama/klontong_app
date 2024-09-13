@@ -77,7 +77,23 @@ void main() {
     price: 5000,
   );
 
+  const tProductId = '66e17bbbfe837603e816b966';
+
   const tStoreProduct = Product(
+    categoryId: 14,
+    categoryName: 'Cemilan',
+    sku: 'MHZVTK',
+    name: 'Ciki ciki',
+    description: 'Ciki ciki yang super enak, hanya di toko klontong kami',
+    weight: 5,
+    width: 5,
+    length: 5,
+    height: 5,
+    image: 'https://cf.shopee.co.id/file/7cb930d1bd183a435f4fb3e5cc4a896b',
+    price: 5000,
+  );
+
+  const tUpdateProduct = Product(
     id: '66e17bbbfe837603e816b966',
     categoryId: 14,
     categoryName: 'Cemilan',
@@ -234,6 +250,162 @@ void main() {
 
         // assert
         verify(mockRemoteDataSource.storeProduct(tStoreProduct));
+
+        // define the expected result
+        const expected = Left<Failure, void>(
+          ConnectionFailure('Failed to connect to the network'),
+        );
+
+        // compare the actual content directly
+        expect(result.isLeft(), isTrue);
+        final resultFailure = (result as Left<Failure, void>).value;
+        final expectedFailure = (expected).value;
+
+        expect(resultFailure, equals(expectedFailure));
+      },
+    );
+  });
+
+  group('Update products data source', () {
+    test(
+      'Should return void when update data is successful',
+      () async {
+        // arrange
+        when(mockRemoteDataSource.updateProduct(tUpdateProduct))
+            .thenAnswer((_) async => tStoreProductResponse);
+
+        // act
+        final result = await repository.updateProduct(tUpdateProduct);
+
+        // assert
+        verify(mockRemoteDataSource.updateProduct(tUpdateProduct));
+
+        // define the expected result
+        const expected = Right<Failure, void>(null);
+
+        // compare the actual content directly
+        expect(result.isRight(), isTrue);
+        final resultProducts = (result as Right<Failure, void>);
+
+        expect(resultProducts, equals(expected));
+      },
+    );
+
+    test(
+      'Should return server failure when store to data is unsuccessful',
+      () async {
+        // arrange
+        when(mockRemoteDataSource.updateProduct(tUpdateProduct))
+            .thenThrow(BadRequestException());
+
+        // act
+        final result = await repository.updateProduct(tUpdateProduct);
+
+        // assert
+        verify(mockRemoteDataSource.updateProduct(tUpdateProduct));
+
+        // define the expected result
+        const expected = Left<Failure, void>(RequestFailure('Bad request'));
+
+        // compare the actual content directly
+        expect(result.isLeft(), isTrue);
+        final resultFailure = (result as Left<Failure, void>).value;
+        final expectedFailure = (expected).value;
+
+        expect(resultFailure, equals(expectedFailure));
+      },
+    );
+
+    test(
+      'Should return connection failure when the device has no internet',
+      () async {
+        // arrange
+        when(mockRemoteDataSource.updateProduct(tUpdateProduct))
+            .thenThrow(NoConnectionException());
+
+        // act
+        final result = await repository.updateProduct(tUpdateProduct);
+
+        // assert
+        verify(mockRemoteDataSource.updateProduct(tUpdateProduct));
+
+        // define the expected result
+        const expected = Left<Failure, void>(
+          ConnectionFailure('Failed to connect to the network'),
+        );
+
+        // compare the actual content directly
+        expect(result.isLeft(), isTrue);
+        final resultFailure = (result as Left<Failure, void>).value;
+        final expectedFailure = (expected).value;
+
+        expect(resultFailure, equals(expectedFailure));
+      },
+    );
+  });
+
+  group('Delete products', () {
+    test(
+      'Should return void when delete data is successful',
+      () async {
+        // arrange
+        when(mockRemoteDataSource.deleteProduct(tProductId))
+            .thenAnswer((_) async => tStoreProductResponse);
+
+        // act
+        final result = await repository.deleteProduct(tProductId);
+
+        // assert
+        verify(mockRemoteDataSource.deleteProduct(tProductId));
+
+        // define the expected result
+        const expected = Right<Failure, void>(null);
+
+        // compare the actual content directly
+        expect(result.isRight(), isTrue);
+        final resultProducts = (result as Right<Failure, void>);
+
+        expect(resultProducts, equals(expected));
+      },
+    );
+
+    test(
+      'Should return server failure when store to data is unsuccessful',
+      () async {
+        // arrange
+        when(mockRemoteDataSource.deleteProduct(tProductId))
+            .thenThrow(BadRequestException());
+
+        // act
+        final result = await repository.deleteProduct(tProductId);
+
+        // assert
+        verify(mockRemoteDataSource.deleteProduct(tProductId));
+
+        // define the expected result
+        const expected = Left<Failure, void>(RequestFailure('Bad request'));
+
+        // compare the actual content directly
+        expect(result.isLeft(), isTrue);
+        final resultFailure = (result as Left<Failure, void>).value;
+        final expectedFailure = (expected).value;
+
+        expect(resultFailure, equals(expectedFailure));
+      },
+    );
+
+    test(
+      'Should return connection failure when the device has no internet',
+      () async {
+        // arrange
+        when(mockRemoteDataSource.updateProduct(tUpdateProduct))
+            .thenThrow(NoConnectionException());
+
+        // act
+        final result = await repository.updateProduct(tUpdateProduct);
+
+        // assert
+        verify(mockRemoteDataSource.updateProduct(tUpdateProduct));
 
         // define the expected result
         const expected = Left<Failure, void>(

@@ -117,7 +117,6 @@ void main() {
         .decode(readJson('dummy_data/products/dummy_product_response.json'));
 
     const tStoreProduct = Product(
-      id: '66e17bbbfe837603e816b966',
       categoryId: 14,
       categoryName: 'Cemilan',
       sku: 'MHZVTK',
@@ -174,6 +173,119 @@ void main() {
 
         // act
         final call = dataSource.storeProduct(tStoreProduct);
+
+        // assert
+        expect(() => call, throwsA(isA<BadRequestException>()));
+      },
+    );
+  });
+
+  group('Update products', () {
+    const tUpdateProduct = Product(
+      id: '66e17bbbfe837603e816b966',
+      categoryId: 14,
+      categoryName: 'Cemilan',
+      sku: 'MHZVTK',
+      name: 'Ciki ciki',
+      description: 'Ciki ciki yang super enak, hanya di toko klontong kami',
+      weight: 5,
+      width: 5,
+      length: 5,
+      height: 5,
+      image: 'https://cf.shopee.co.id/file/7cb930d1bd183a435f4fb3e5cc4a896b',
+      price: 5000,
+    );
+
+    test(
+      'Should return product response when the response code is 200',
+      () async {
+        // arrange
+        when(
+          mockHttpClient.put(
+            Uri.parse('${ProductUrls.product}/${tUpdateProduct.id}'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer(
+          (_) async => http.Response(
+            '',
+            HttpStatus.ok,
+          ),
+        );
+
+        // act
+        await dataSource.updateProduct(tUpdateProduct);
+
+        // assert
+        expect(null, equals(null));
+      },
+    );
+
+    test(
+      'Should throw a server exception when the response code is 404 or other',
+      () async {
+        // arrange
+        when(
+          mockHttpClient.put(
+            Uri.parse('${ProductUrls.product}/${tUpdateProduct.id}'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer(
+          (_) async => http.Response('{}', 404),
+        );
+
+        // act
+        final call = dataSource.updateProduct(tUpdateProduct);
+
+        // assert
+        expect(() => call, throwsA(isA<BadRequestException>()));
+      },
+    );
+  });
+
+  group('Delete products', () {
+    const tProductId = '66e17bbbfe837603e816b966';
+
+    test(
+      'Should return product response when the response code is 200',
+      () async {
+        // arrange
+        when(
+          mockHttpClient.delete(
+            Uri.parse('${ProductUrls.product}/$tProductId'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => http.Response(
+            '',
+            HttpStatus.ok,
+          ),
+        );
+
+        // act
+        await dataSource.deleteProduct(tProductId);
+
+        // assert
+        expect(null, equals(null));
+      },
+    );
+
+    test(
+      'Should throw a server exception when the response code is 404 or other',
+      () async {
+        // arrange
+        when(
+          mockHttpClient.delete(
+            Uri.parse('${ProductUrls.product}/$tProductId'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => http.Response('{}', 404),
+        );
+
+        // act
+        final call = dataSource.deleteProduct(tProductId);
 
         // assert
         expect(() => call, throwsA(isA<BadRequestException>()));

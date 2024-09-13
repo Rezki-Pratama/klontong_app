@@ -123,8 +123,8 @@ class ApiBaseHelper {
         body: json.encode(body),
       );
       if (kDebugMode) networkInspector?.onHttpResponse(response);
-      debugPrint('PUT body: ${jsonEncode(body)}');
-      debugPrint('response: ${jsonDecode(response.body.toString())}');
+      debugPrint(
+          'response code: ${jsonDecode(response.statusCode.toString())}');
       responseJson = _returnResponse(response);
     } on SocketException {
       throw NoConnectionException();

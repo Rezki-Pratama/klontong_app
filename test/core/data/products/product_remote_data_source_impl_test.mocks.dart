@@ -74,14 +74,21 @@ class MockProductRemoteDataSource extends _i1.Mock
       ) as _i4.Future<_i2.ProductResponse>);
 
   @override
-  _i4.Future<void> updateProduct(_i5.Product? data) => (super.noSuchMethod(
+  _i4.Future<_i2.ProductResponse> updateProduct(_i5.Product? data) =>
+      (super.noSuchMethod(
         Invocation.method(
           #updateProduct,
           [data],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue:
+            _i4.Future<_i2.ProductResponse>.value(_FakeProductResponse_0(
+          this,
+          Invocation.method(
+            #updateProduct,
+            [data],
+          ),
+        )),
+      ) as _i4.Future<_i2.ProductResponse>);
 
   @override
   _i4.Future<void> deleteProduct(String? id) => (super.noSuchMethod(

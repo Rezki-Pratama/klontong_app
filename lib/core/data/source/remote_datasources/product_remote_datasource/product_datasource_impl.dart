@@ -71,11 +71,10 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<ProductResponse> updateProduct(Product data) async {
-    final response = await apiBaseHelper.updatePublicApi(
-      ProductUrls.product,
+  Future<void> updateProduct(Product data) async {
+    await apiBaseHelper.updatePublicApi(
+      '${ProductUrls.product}/${data.id}',
       body: {
-        '_id': data.id,
         'CategoryId': data.categoryId,
         'categoryName': data.categoryName,
         'sku': data.sku,
@@ -90,7 +89,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       },
     );
     try {
-      return ProductResponse.fromJson(response);
+      return;
     } catch (e) {
       throw ParseDataException();
     }
