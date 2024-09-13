@@ -32,6 +32,7 @@ void main() {
 
   group('Retrieve products', () {
     const page = 1;
+    const search = 'Ciki ciki';
     final List<dynamic> jsonMap = json.decode(
       readJson('dummy_data/products/dummy_products_response.json'),
     );
@@ -64,6 +65,30 @@ void main() {
 
         // assert
         expect(result, equals(tProductResponse));
+      },
+    );
+
+    test(
+      'Should return products response list by search value when the response code is 200',
+      () async {
+        // arrange
+        when(
+          mockHttpClient.get(
+            Uri.parse(ProductUrls.product),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => http.Response(
+              readJson('dummy_data/products/dummy_products_response.json'),
+              HttpStatus.ok),
+        );
+
+        // act
+        final result = await dataSource.retrieveProduct(page: page, search: search);
+
+        // assert
+        expect(result, equals(tProductResponse));
+        expect(result[0].name, equals(search));
       },
     );
 

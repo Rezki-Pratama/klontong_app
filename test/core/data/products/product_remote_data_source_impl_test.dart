@@ -28,6 +28,8 @@ void main() {
 
   const page = 1;
 
+  const search = 'Ciki ciki';
+
   const tProductResponse = [
     ProductResponse(
       id: '66e17bbbfe837603e816b966',
@@ -131,6 +133,34 @@ void main() {
         final expectedProducts = (expected).value;
 
         expect(resultProducts, equals(expectedProducts));
+      },
+    );
+
+    test(
+      'Should return products array when a call to data with search value is successful',
+      () async {
+        // arrange
+        when(mockRemoteDataSource.retrieveProduct(page: page, search: search))
+            .thenAnswer((_) async => tProductResponse);
+
+        // act
+        final result =
+            await repository.retrieveProduct(page: page, search: search);
+
+        // assert
+        verify(
+            mockRemoteDataSource.retrieveProduct(page: page, search: search));
+
+        // define the expected result
+        const expected = Right<Failure, List<Product>>(tProduct);
+
+        // compare the actual content directly
+        expect(result.isRight(), isTrue);
+        final resultProducts = (result as Right<Failure, List<Product>>).value;
+        final expectedProducts = (expected).value;
+
+        expect(resultProducts, equals(expectedProducts));
+        expect(resultProducts[0].name, equals(search));
       },
     );
 

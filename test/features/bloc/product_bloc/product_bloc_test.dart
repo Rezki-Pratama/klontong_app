@@ -25,6 +25,8 @@ void main() {
 
   const page = 1;
 
+  const search = 'Ciki ciki';
+
   const tProduct = [
     Product(
       id: '66e17bbbfe837603e816b966',
@@ -93,6 +95,25 @@ void main() {
     ],
     verify: (bloc) {
       verify(mockProductUseCase.paginate(page: page));
+    },
+  );
+
+  blocTest<ProductBloc, ProductState>(
+    'Should emit [loading, has data] with search value when data is gotten successfully',
+    build: () {
+      when(mockProductUseCase.paginate(page: page, search: search))
+          .thenAnswer((_) async => const Right(tProduct));
+      return productBloc;
+    },
+    act: (bloc) =>
+        bloc.add(const RetrieveProduct(isScroll: false, search: search)),
+    wait: const Duration(milliseconds: 1000),
+    expect: () => [
+      const ProductState(status: ProductStatus.loadingRetrieve),
+      const ProductState(status: ProductStatus.loaded, data: tProduct)
+    ],
+    verify: (bloc) {
+      verify(mockProductUseCase.paginate(page: page, search: search));
     },
   );
 

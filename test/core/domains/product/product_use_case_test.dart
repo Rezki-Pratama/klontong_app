@@ -24,6 +24,8 @@ void main() {
 
   const page = 1;
 
+  const search = 'Ciki ciki';
+
   const tProduct = [
     Product(
       id: '66e17bbbfe837603e816b966',
@@ -82,6 +84,21 @@ void main() {
 
         // act
         final result = await usecase.paginate(page: page);
+
+        // assert
+        expect(result, equals(const Right(tProduct)));
+      },
+    );
+
+    test(
+      'Should retrieve products with search value from the repository',
+      () async {
+        // arrange
+        when(mockProductRepository.retrieveProduct(page: page, search: search))
+            .thenAnswer((_) async => const Right(tProduct));
+
+        // act
+        final result = await usecase.paginate(page: page, search: search);
 
         // assert
         expect(result, equals(const Right(tProduct)));
