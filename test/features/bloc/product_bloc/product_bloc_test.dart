@@ -42,6 +42,35 @@ void main() {
     )
   ];
 
+  const tStoreProduct = Product(
+    categoryId: 14,
+    categoryName: 'Cemilan',
+    sku: 'MHZVTK',
+    name: 'Ciki ciki',
+    description: 'Ciki ciki yang super enak, hanya di toko klontong kami',
+    weight: 5,
+    width: 5,
+    length: 5,
+    height: 5,
+    image: 'https://cf.shopee.co.id/file/7cb930d1bd183a435f4fb3e5cc4a896b',
+    price: 5000,
+  );
+
+  const tUpdateProduct = Product(
+    id: '66e17bbbfe837603e816b966',
+    categoryId: 14,
+    categoryName: 'Cemilan',
+    sku: 'MHZVTK',
+    name: 'Ciki ciki',
+    description: 'Ciki ciki yang super enak, hanya di toko klontong kami',
+    weight: 5,
+    width: 5,
+    length: 5,
+    height: 5,
+    image: 'https://cf.shopee.co.id/file/7cb930d1bd183a435f4fb3e5cc4a896b',
+    price: 5000,
+  );
+
   test(
     'Initial state should be ProductState',
     () {
@@ -82,6 +111,82 @@ void main() {
     ],
     verify: (bloc) {
       verify(mockProductUseCase.paginate(page));
+    },
+  );
+
+  blocTest<ProductBloc, ProductState>(
+    'Should emit [loading, stored] when store data is successfully',
+    build: () {
+      when(mockProductUseCase.store(data: tStoreProduct))
+          .thenAnswer((_) async => const Right(null));
+      return productBloc;
+    },
+    act: (bloc) => bloc.add(const StoreProduct(data: tStoreProduct)),
+    wait: const Duration(milliseconds: 1000),
+    expect: () => [
+      const ProductState(status: ProductStatus.loadingStore),
+      const ProductState(
+          status: ProductStatus.stored, data: [], message: 'stored successfuly')
+    ],
+    verify: (bloc) {
+      verify(mockProductUseCase.store(data: tStoreProduct));
+    },
+  );
+
+  blocTest<ProductBloc, ProductState>(
+    'Should emit [loading, error] when store data is unsuccessful',
+    build: () {
+      when(mockProductUseCase.store(data: tStoreProduct))
+          .thenAnswer((_) async => const Left(ServerFailure('Server failure')));
+      return productBloc;
+    },
+    act: (bloc) => bloc.add(const StoreProduct(data: tStoreProduct)),
+    expect: () => [
+      const ProductState(status: ProductStatus.loadingStore),
+      const ProductState(
+          status: ProductStatus.errorStore, message: 'server failure')
+    ],
+    verify: (bloc) {
+      verify(mockProductUseCase.store(data: tStoreProduct));
+    },
+  );
+
+  blocTest<ProductBloc, ProductState>(
+    'Should emit [loading, update] when update data is successfully',
+    build: () {
+      when(mockProductUseCase.update(data: tUpdateProduct))
+          .thenAnswer((_) async => const Right(null));
+      return productBloc;
+    },
+    act: (bloc) => bloc.add(const UpdateProduct(data: tUpdateProduct)),
+    wait: const Duration(milliseconds: 1000),
+    expect: () => [
+      const ProductState(status: ProductStatus.loadingUpdate),
+      const ProductState(
+          status: ProductStatus.updated,
+          data: [],
+          message: 'updated successfuly')
+    ],
+    verify: (bloc) {
+      verify(mockProductUseCase.update(data: tUpdateProduct));
+    },
+  );
+
+  blocTest<ProductBloc, ProductState>(
+    'Should emit [loading, error] when update data is unsuccessful',
+    build: () {
+      when(mockProductUseCase.update(data: tUpdateProduct))
+          .thenAnswer((_) async => const Left(ServerFailure('Server failure')));
+      return productBloc;
+    },
+    act: (bloc) => bloc.add(const UpdateProduct(data: tUpdateProduct)),
+    expect: () => [
+      const ProductState(status: ProductStatus.loadingUpdate),
+      const ProductState(
+          status: ProductStatus.errorUpdate, message: 'server failure')
+    ],
+    verify: (bloc) {
+      verify(mockProductUseCase.update(data: tUpdateProduct));
     },
   );
 }

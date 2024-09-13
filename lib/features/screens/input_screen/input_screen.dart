@@ -139,7 +139,16 @@ class _InputScreenState extends State<InputScreen> {
                 SnackBar(content: Text(state.message)),
               );
               Navigator.pop(context, true);
+            } else if (state.status == ProductStatus.updated) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+              Navigator.pop(context, true);
             } else if (state.status == ProductStatus.errorStore) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+            } else if (state.status == ProductStatus.errorUpdate) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );
@@ -365,7 +374,9 @@ class _InputScreenState extends State<InputScreen> {
                             builder: (context, state) {
                               return () {
                                 if (state.status ==
-                                    ProductStatus.loadingStore) {
+                                        ProductStatus.loadingStore ||
+                                    state.status ==
+                                        ProductStatus.loadingUpdate) {
                                   return const ButtonLoader(
                                     key: Key('buttonLoader'),
                                   );

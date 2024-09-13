@@ -48,14 +48,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   updateProduct(UpdateProduct event, Emitter<ProductState> emit) async {
-    emit(state.copyWith(status: ProductStatus.loadingStore));
-    final result = await _useCase.store(data: event.data);
+    emit(state.copyWith(status: ProductStatus.loadingUpdate));
+    final result = await _useCase.update(data: event.data);
     result.fold((failure) {
       emit(state.copyWith(
-          status: ProductStatus.errorStore, message: failure.message));
+          status: ProductStatus.errorUpdate, message: failure.message));
     }, (data) {
       emit(state.copyWith(
-          status: ProductStatus.stored, message: 'saved successfuly'));
+          status: ProductStatus.updated, message: 'updated successfuly'));
     });
   }
 
