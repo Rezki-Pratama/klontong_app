@@ -54,8 +54,6 @@ void main() {
     mockProductBloc = MockProductBloc();
     when(() => mockProductBloc.state)
         .thenReturn(const ProductState(status: ProductStatus.initial));
-    // Mock the `add` method to verify it gets called
-    when(() => mockProductBloc.add(any())).thenAnswer((_) {});
   });
 
   Widget makeTestableWidget(Widget body) {
@@ -149,8 +147,11 @@ void main() {
         expect(submitButtonFinder, findsOneWidget);
 
         // tap the submit button
-        await tester.tap(submitButtonFinder, warnIfMissed: false);
+        await tester.ensureVisible(submitButtonFinder);
+        await tester.tap(submitButtonFinder);
         await tester.pumpAndSettle();
+
+        verify(() => mockProductBloc.add(any())).called(1);
       },
     );
 
